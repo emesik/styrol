@@ -30,6 +30,7 @@
 
 		current.click(function(){
 			ul.slideToggle('fast');
+			return false;
 		});
 
 		// show
