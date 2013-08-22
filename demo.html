@@ -4,7 +4,19 @@
 		<script type="text/javascript" src="styrol.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				$('select.styrol').styrol_select().change(function(){ $('#value-display').html($(this).val()); });
+				$('select, input[type="checkbox"]').styrol();
+				$('select.styrol').change(
+					function(){
+						var sel = $(this);
+						$('.val-display[data-source="' + sel.attr('id') + '"]').html(sel.val());
+					}
+				);
+				$('input[type="checkbox"].styrol').change(
+					function(){
+						var box = $(this);
+						$('.val-display[data-source="' + box.attr('id') + '"]').html(box.is(':checked') ? 'on' : 'off');
+					}
+				);
 			});
 		</script>
 		<style type="text/css">
@@ -14,26 +26,32 @@
 			body {
 				margin: 20px;
 			}
-			.demo {
-				padding: 20px 20px;
+			section {
+				margin-bottom: 20px;
+				padding: 0 20px 20px 20px;
 				border: 1px solid #888;
 				border-radius: 20px;
 				-moz-border-radius: 20px;
 				-webkit-border-radius: 20px;
 				-o-border-radius: 20px;
 			}
-			.styrol.wrapper {
+			pre {
+				padding: 10px;
+				background-color: #eee;
+				color: #840;
+			}
+			.styrol.select {
 				display: block;
 				width: 150px;
 				position: relative;
 			}
-			.styrol .current {
+			.styrol.select .current {
 				display: block;
 				background-color: #eee;
 				padding: 6px 10px;
 				box-shadow: 2px 2px 6px #888;
 			}
-			.styrol .select {
+			.styrol.select ul {
 				position: absolute;
 				left: 0;
 				top: 100%;
@@ -50,27 +68,82 @@
 				background-color: #eee;
 				box-shadow: 2px 2px 6px #888;
 			}
-			.styrol a {
+			.styrol.select a {
+				display: block;
 				text-decoration: none;
 				color: black;
+			}
+			.styrol.select ul li a:hover {
+				background-color: #88f;
+				color: #fff;
+			}
+			.styrol.checkbox {
+				display: inline-block;
+				height: 12px;
+				width: 12px;
+				border: 1px solid #888;
+				border-radius: 4px;
+				-moz-border-radius: 4px;
+				-webkit-border-radius: 4px;
+				-o-border-radius: 4px;
+			}
+			.styrol.checkbox span {
+				display: inline-block;
+				height: 10px;
+				width: 10px;
+				margin: 1px;
+				border-radius: 3px;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				-o-border-radius: 3px;
+			}
+			.styrol.checkbox.checked span {
+				background-color: #88f;
 			}
 		</style>
 	</head>
 	<body>
 		<h1>Styrol</h1>
-		<div class="demo">
-			<select name="select" class="styrol">
-				<option value="1">Option 1</option>
-				<option value="2" selected>Option 2</option>
-				<option value="3">Option 3</option>
-				<option value="4">Option 4</option>
-				<option value="5">Option 5</option>
-				<option value="6">Option 6</option>
-				<option value="7">Option 7</option>
-			</select>
-			<p>
-				Selected value: <span id="value-display"></span>
-			</p>
-		</div>
+		<p>
+		The <strong>sty</strong>led cont<strong>rol</strong> for <a href="http://jquery.com/">jQuery</a>
+		</p>
+		<section>
+			<h2>A select/option dropdown</h2>
+			<div id="select-demo-1">
+				<select id="select-1" name="select" class="styrol">
+					<option value="1">Option 1</option>
+					<option value="2" selected>Option 2</option>
+					<option value="3">Option 3</option>
+					<option value="4">Option 4</option>
+					<option value="5">Option 5</option>
+					<option value="6">Option 6</option>
+					<option value="7">Option 7</option>
+				</select>
+				<p>
+					Selected value: <span class="val-display" data-source="select-1">2</span>
+				</p>
+			</div>
+		</section>
+		<section>
+			<h2>Checkbox</h2>
+			<div id="checkbox-demo-1">
+				<input id="checkbox-1" type="checkbox" class="styrol" />
+				<label for="checkbox-1">
+					The checkbox is <span class="val-display" data-source="checkbox-1">off</span>
+				</label>
+			</div>
+			<div id="checkbox-demo-2">
+				<input id="checkbox-2" type="checkbox" class="styrol" checked />
+				<label for="checkbox-2">
+					The checkbox is <span class="val-display" data-source="checkbox-2">on</span>
+				</label>
+			</div>
+		</section>
+		<section>
+			<h2>Usage</h2>
+			<pre>
+$('select, input[type="checkbox"]').styrol();
+			</pre>
+		</section>
 	</body>
 </html>
